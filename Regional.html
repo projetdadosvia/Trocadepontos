@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troca de Pontos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Estilo para o corpo da página */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: url('fundo.png') no-repeat center center fixed;
+            background-size: cover; /* Ajusta a imagem ao tamanho da tela */
+}
+
+        /* Estilo da caixa principal */
+        .container {
+            background-color: rgba(255, 255, 255, 0.95); /* Fundo branco suave */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra mais forte */
+            max-width: 600px;
+            margin: auto;
+            animation: fadeIn 1s ease-in-out; /* Efeito de entrada suave */
+}
+
+        /* Título */
+        h1 {
+            text-align: center;
+            color: #165c7d;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+        /* Rótulos */
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #333;
+            font-weight: bold;
+}
+
+        /* Campos de entrada */
+        input[type="number"], input[type="text"], input[type="email"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+}
+
+        /* Botões gerais */
+        button {
+            background-color: #165c7d;  /* Azul escuro */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: all 0.3s ease; /* Efeito suave */
+}
+
+        button:hover {
+            background-color: #144a63; /* Azul mais escuro ao passar o mouse */
+            transform: translateY(-2px); /* Efeito de elevação */
+}
+
+        /* Botão específico para remover produto */
+        button.remover {
+            background-color: #FF3000; /* Vermelho */
+            color: white;
+            padding: 6px 12px;
+            margin-left: 10px;
+            font-size: 0.9em;
+}
+
+        button.remover:hover {
+            background-color: #d32900;
+}
+
+        /* Exibição de mensagens de resultado */
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f8e8;
+            border-radius: 5px;
+            color: #165c7d;
+            font-size: 1em;
+            font-weight: bold;
+            display: none;
+}
+
+        /* Texto dentro do resultado */
+        .result p {
+            margin: 5px 0;
+}
+
+        /* Mensagem de erro */
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -10px;
+            margin-bottom: 15px;
+}
+
+        /* Efeito de entrada suave */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+    }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+    }
+}
+        /* Pontos Disponíveis - Destaque */
+        #pontos-disponiveis {
+            font-size: 1.5em; /* Texto maior */
+            font-weight: bold; /* Negrito */
+            color: #165c7d; /* Azul escuro */
+            background-color: rgba(255, 255, 255, 0.8); /* Fundo branco translúcido */
+            padding: 10px 15px; /* Espaçamento interno */
+            border-radius: 8px; /* Bordas arredondadas */
+            text-align: center; /* Centralizado */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+            margin-top: 15px; /* Margem para afastar do seletor */
+}
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e0ffe0;
+            border-radius: 5px;
+            display: none;
+        }
+        .result p {
+            margin: 5px 0;
+        }
+
+        /* Aplicando estilo ao campo de resposta */
+        textarea, input[type="number"], input[type="text"], input[type="email"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box; /* Evita quebra */
+}
+
+        /* Melhorando o estilo do textarea */
+        textarea {
+            height: 100px; /* Altura padrão */
+            resize: none;  /* Remove a opção de redimensionar */
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Troca de Pontos - Visão Regional</h1>
+        
+        <!-- Selecione a Regional -->
+        <label for="posto-atendimento">Selecione a Regional:</label>
+        <select id="posto-atendimento" onchange="carregarPontosPosto()">
+            <option value="" disabled selected>Escolha a Regional</option>
+            <option value="reg4">REG 4 - JARAGUA</option>
+            <option value="reg5">REG 5 - ITAJAI</option>
+            <option value="reg6">REG 6 - GASPAR</option>
+            <option value="reg8">REG 8 - VALE EUROPEU</option>
+
+            <!-- Adicione mais postos conforme necessário -->
+        </select>
+        
+        <!-- Campo de E-mail -->
+        <label for="email-usuario">Digite seu e-mail:</label>
+        <input type="email" id="email-usuario" placeholder="Seu e-mail" required disabled>
+
+
+        <!-- Pontos disponíveis para o Posto -->
+        <p id="pontos-disponiveis"></p>
+        
+        <!-- Selecione o Produto -->
+        <label for="produto">Selecione o produto que deseja trocar:</label>
+        <select id="produto" onchange="atualizarPontos()" disabled>
+            <option value="" disabled selected>Escolha o produto</option>
+            <option value="Caneta" data-pontos="1">Caneta</option>
+            <option value="Suporte Bolsa" data-pontos="1">Suporte Bolsa</option>
+            <option value="Bloco de Anotações Preto" data-pontos="1">Bloco de Anotações Preto</option>
+            <option value="Bloco em Fibra de Bambu" data-pontos="1">Bloco em Fibra de Bambu</option>
+            <option value="Copo em Fibra de Bambu" data-pontos="1">Copo em Fibra de Bambu</option>
+            <option value="Garrafa Térmica" data-pontos="1">Garrafa Térmica</option>
+            <option value="Kit Caneta e Lapiseira" data-pontos="1">Kit Caneta e Lapiseira</option>
+            <option value="Caneca" data-pontos="1">Caneca</option>
+            <option value="Toalha" data-pontos="1">Toalha</option>
+            <option value="Cooler" data-pontos="1">Cooler</option>
+            <option value="Kit Frescobol" data-pontos="1">Kit Frescobol</option>
+            <option value="Caixinha de Som em Bambu" data-pontos="1">Caixinha de Som em Bambu</option>
+            <option value="Kit para Vinho" data-pontos="1">Kit para Vinho</option>
+            <option value="Bolsa Praia" data-pontos="1">Bolsa Praia</option>
+            <option value="Porta Vinho de Couro" data-pontos="1">Porta Vinho de Couro</option>
+            <option value="Kit para Queijo" data-pontos="1">Kit para Queijo</option>
+            <option value="Kit Caipirinha" data-pontos="1">Kit Caipirinha</option>
+            <option value="Kit para Petisco" data-pontos="1">Kit para Petisco</option>
+            <option value="Kit para Churrasco" data-pontos="1">Kit para Churrasco</option>
+            <option value="Carregador Portátil" data-pontos="1">Carregador Portátil</option>
+            <option value="Fone Bluetooth" data-pontos="1">Fone Bluetooth</option>
+            <option value="Copo Térmico" data-pontos="1">Copo Térmico</option>
+            <option value="Guarda-Chuva" data-pontos="1">Guarda-Chuva</option>
+            <option value="Mochila Antifurto" data-pontos="1">Mochila Antifurto</option>
+            <option value="Cadeira de Praia" data-pontos="1">Cadeira de Praia</option>
+            <option value="Omeleteira" data-pontos="1">Omeleteira</option>
+            <option value="Guarda-Sol" data-pontos="1">Guarda-Sol</option>
+            <option value="Mixer" data-pontos="1">Mixer</option>
+            <option value="Sanduicheira" data-pontos="1">Sanduicheira</option>
+            <option value="Máquina Waffle" data-pontos="1">Máquina Waffle</option>
+            <option value="Liquidificador" data-pontos="1">Liquidificador</option>
+            <option value="Mala Executiva" data-pontos="1">Mala Executiva</option>
+            <option value="Fone de Ouvido JBL" data-pontos="1">Fone de Ouvido JBL</option>
+            <option value="JBL (Caixa de Som)" data-pontos="1">JBL (Caixa de Som)</option>
+            <option value="Alexa" data-pontos="1">Alexa</option>
+            <option value="Cafeteira Dolce Gusto" data-pontos="1">Cafeteira Dolce Gusto</option>
+            <option value="Air Fryer" data-pontos="1">Air Fryer</option>
+            <option value="Kindle" data-pontos="1">Kindle</option>
+
+            <!-- Adicione mais produtos conforme necessário -->
+        </select>
+        
+        <!-- Quantidade de Produto -->
+        <label for="quantidade">Quantidade do produto:</label>
+        <select id="quantidade" onchange="atualizarPontos()" disabled>
+            <option value="" disabled selected>Selecione a quantidade</option>
+            <option value="1">1</option>
+        </select>
+
+        <!-- Exibir os Pontos necessários para a quantidade -->
+        <p id="pontos-produto">Pontos necessários por produto: 0</p>
+
+        <!-- Botão para Adicionar Produto -->
+        <button type="button" id="adicionar-produto" onclick="adicionarProduto()" disabled>Adicionar Produto</button>
+        
+        <!-- Mostrar a lista de produtos selecionados -->
+        <div id="produtos-selecionados"></div>
+    
+        <!-- Botão para Registrar a Troca de Pontos -->
+        <button onclick="registrarTroca()">Registrar troca de pontos</button>
+        
+        
+        <!-- Comprovante de Troca -->
+        <div class="result" id="resultado">
+            <h2>Comprovante de Troca</h2>
+            <p id="comprovante"></p>
+        </div>
+    </div>
+
+    <script>
+
+    // Armazena a pontuação total do usuário
+    let totalPontos = 5000; // Exemplo, altere conforme necessário
+    let pontosRestantes = totalPontos;
+    let produtosSelecionados = []; // Para armazenar os produtos selecionados
+    
+    // Função para carregar os pontos disponíveis para a Regional
+    function carregarPontosPosto() {
+        const posto = document.getElementById("posto-atendimento").value;
+        
+        // Defina os pontos para cada PA
+        const pontosPorPA = {
+            "reg4": 1,
+            "reg5": 1,
+            "reg6": 1,
+            "reg8": 1
+        }
+
+        // Verifica se o posto existe no objeto
+    if (pontosPorPA[posto]) {
+        pontosRestantes = pontosPorPA[posto];
+        document.getElementById("pontos-disponiveis").textContent = `Quantidade disponível: ${pontosRestantes}`;
+
+        // Habilita os campos após a seleção do PA
+        document.getElementById("email-usuario").disabled = false;
+        document.getElementById("produto").disabled = false;
+        document.getElementById("quantidade").disabled = false;
+        document.getElementById("adicionar-produto").disabled = false;
+
+        // Limpa os dados anteriores ao selecionar um novo PA
+        limparTrocas();
+    } else {
+        alert("Posto de Atendimento não atingiu o objetivo para troca de pontos.");
+        
+        // Limpa os pontos disponíveis
+        document.getElementById("pontos-disponiveis").textContent = "";
+
+        // Limpa os dados de trocas anteriores
+        limparTrocas();
+
+        // Desabilita os campos
+        document.getElementById("email-usuario").disabled = true;
+        document.getElementById("produto").disabled = true;
+        document.getElementById("quantidade").disabled = true;
+        document.getElementById("adicionar-produto").disabled = true;
+    }
+}
+
+    // Função para limpar todos os registros anteriores
+    function limparTrocas() {
+        produtosSelecionados = []; // Limpa a lista de produtos
+        document.getElementById("produtos-selecionados").innerHTML = ""; // Remove produtos listados
+        document.getElementById("resultado").style.display = "none"; // Esconde o comprovante de troca
+}
+    
+    // Função para atualizar os pontos necessários para a quantidade do produto
+    function atualizarPontos() {
+        const produtoSelecionado = document.getElementById("produto");
+        const quantidade = document.getElementById("quantidade").value;
+        const pontosPorProduto = produtoSelecionado.selectedOptions[0].getAttribute("data-pontos");
+        
+        // Calcula os pontos totais necessários
+        const pontosTotais = pontosPorProduto * quantidade;
+        document.getElementById("pontos-produto").textContent = `Pontos necessários por produto: ${pontosTotais}`;
+    }
+    
+    // Função para adicionar produtos à lista de seleção
+    function adicionarProduto() {
+        const produtoSelecionado = document.getElementById("produto");
+        const quantidade = document.getElementById("quantidade").value;
+
+        // Verifica se o produto e a quantidade foram selecionados
+        if (!produtoSelecionado.value) {
+            alert("Por favor, selecione um produto.");
+            return;
+        }
+
+        if (!quantidade) {
+            alert("Por favor, selecione a quantidade antes de adicionar um produto.");
+            return;
+        }
+
+
+        const pontosPorProduto = produtoSelecionado.selectedOptions[0].getAttribute("data-pontos");
+        const nomeProduto = produtoSelecionado.options[produtoSelecionado.selectedIndex].text;
+        
+        // Verifica se a quantidade de pontos é suficiente
+        const pontosTotais = pontosPorProduto * quantidade;
+        
+        if (pontosTotais > pontosRestantes) {
+            alert("Você não tem pontos suficientes para adicionar este produto.");
+            return;
+        }
+    
+        // Adiciona o produto à lista de produtos selecionados
+        const produto = {
+            nome: nomeProduto,
+            quantidade: quantidade,
+            pontos: pontosTotais
+        };
+        
+        produtosSelecionados.push(produto);
+        
+        // Cria um item de produto para adicionar à lista
+        const itemProduto = document.createElement("div");
+        itemProduto.classList.add("item-produto");
+        itemProduto.innerHTML = `${nomeProduto} - Quantidade: ${quantidade} - Pontos: ${pontosTotais} 
+            <button onclick="removerProduto(this, ${pontosTotais})">Remover</button>`;
+        
+        document.getElementById("produtos-selecionados").appendChild(itemProduto);
+        
+        // Subtrai os pontos do total
+        pontosRestantes -= pontosTotais;
+        document.getElementById("pontos-disponiveis").textContent = `Pontos disponíveis: ${pontosRestantes}`;
+    }
+    
+    // Função para remover produtos da lista
+    function removerProduto(button, pontosProduto) {
+        // Remove o item da lista de produtos selecionados
+        const itemProduto = button.parentElement;
+        itemProduto.remove();
+        
+        // Restaura os pontos quando um produto for removido
+        pontosRestantes += pontosProduto;
+        document.getElementById("pontos-disponiveis").textContent = `Pontos disponíveis: ${pontosRestantes}`;
+        
+        // Remove o produto da lista interna
+        produtosSelecionados = produtosSelecionados.filter(produto => produto.pontos !== pontosProduto);
+    }
+    
+    function registrarTroca() {
+        const produtos = document.getElementById("produtos-selecionados").children;
+        const postoAtendimento = document.getElementById("posto-atendimento").selectedOptions[0]?.text;
+        const emailUsuario = document.getElementById("email-usuario").value.trim();
+
+        if (!postoAtendimento) {
+            alert("Por favor, selecione um posto de atendimento antes de registrar a troca.");
+            return;
+        }
+
+        if (!emailUsuario) {
+            alert("Por favor, preencha seu e-mail.");
+            return;
+        }
+
+        if (produtos.length === 0) {
+            alert("Por favor, selecione produtos antes de registrar a troca.");
+            return;
+        }
+    
+        let comprovanteTexto = `Posto de Atendimento: ${postoAtendimento}\n`;
+        comprovanteTexto += `E-mail do Colaborador: ${emailUsuario}\n\n`;
+        comprovanteTexto += "Você trocou os seguintes produtos:\n";
+
+        for (let i = 0; i < produtos.length; i++) {
+            const textoProduto = produtos[i].innerText.split("Remover")[0].trim();
+            comprovanteTexto += `${textoProduto}\n`;
+        }
+    
+        comprovanteTexto += `\nTotal de pontos restantes: ${pontosRestantes}`;
+    
+        // Exibe o comprovante no elemento #comprovante
+        document.getElementById("comprovante").innerHTML = comprovanteTexto.replace(/\n/g, "<br>");
+    
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.style.display = "block";
+    
+        // Gera o PDF
+        gerarPDF(comprovanteTexto);
+
+        gerarCSV(postoAtendimento, produtosSelecionados);
+    
+        alert("Troca registrada com sucesso!");
+    }
+    
+    function gerarPDF(comprovanteTexto) {
+        try {
+            const { jsPDF } = window.jspdf; // Verifica se jsPDF está carregado
+            if (!jsPDF) {
+                alert("Erro: jsPDF não foi carregado. Verifique a inclusão da biblioteca.");
+                return;
+            }
+    
+            const doc = new jsPDF();
+            const margemEsquerda = 10;  // Margem esquerda para alinhamento
+            const larguraMaxima = 180;  // Largura máxima do texto
+            let y = 10;  // Margem superior inicial
+
+            const linhas = comprovanteTexto.split("\n"); // Divide o texto em linhas
+    
+            linhas.forEach(linha => {
+                const linhasQuebradas = doc.splitTextToSize(linha, larguraMaxima); 
+                
+                // Adiciona cada linha ao documento
+                linhasQuebradas.forEach(texto => {
+                    if (y > 280) {  // Verifica o limite da página
+                        doc.addPage();  // Adiciona uma nova página
+                        y = 10;  // Reseta a margem superior
+                    }
+                    doc.text(texto, margemEsquerda, y);
+                    y += 10;  // Incrementa a posição vertical
+                });
+            });
+    
+            doc.save("comprovante_troca.pdf");
+        } catch (error) {
+            console.error("Erro ao gerar PDF:", error);
+            alert("Ocorreu um erro ao gerar o PDF. Verifique o console para mais detalhes.");
+        }
+    }
+
+    function gerarCSV(posto, produtos) {
+    let csvContent = "data:text/csv;charset=utf-8,posto,produto,quantidade\n";
+
+    produtos.forEach(prod => {
+        const linha = `${posto},"${prod.nome}",${prod.quantidade}\n`;
+        csvContent += linha;
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "troca_pontos.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+    
+</script>
+
+</body>
+</html>
