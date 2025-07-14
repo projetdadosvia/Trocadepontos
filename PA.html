@@ -181,19 +181,25 @@
             <option value="posto14">PA 14 - JRG RIO DA LUZ</option>
             <option value="posto15">PA 15 - ITJ SAO JOAO</option>
             <option value="posto17">PA 17 - BNU GLORIA</option>
+            <option value="posto19">PA 19 - BNU SHOPPING H</option>
             <option value="posto20">PA 20 - BNU VALE AUTOS</option>
             <option value="posto21">PA 21 - JRG CENTRO</option>
+            <option value="posto23">PA 23 - TMB ESTADOS</option>
             <option value="posto25">PA 25 - ITJ CENTRO</option>
             <option value="posto26">PA 26 - BNU VILA NOVA</option>
             <option value="posto28">PA 28 - BNU FORTALEZA</option>
             <option value="posto29">PA 29 - MASSARANDUBA</option>
             <option value="posto30">PA 30 - ITJ RESSACADA</option>
+            <option value="posto31">PA 31 - BNU AGUA VERDE</option>
             <option value="posto32">PA 32 - BNU V ITOUPAVA</option>
             <option value="posto37">PA 37 - GSP S TEREZINHA</option>
+            <option value="posto39">PA 39 - BNU V CENTRAL</option>
             <option value="posto42">PA 42 - GSP BELA VISTA</option>
+            <option value="posto44">PA 44 - ILHOTA</option>
             <option value="posto45">PA 45 - RIO DOS CEDROS</option>
             <option value="posto46">PA 46 - IDL TAPAJOS</option>
             <option value="posto47">PA 47 - JRG FIGUEIRA</option>
+            <option value="posto48">PA 48 - BNU ITOUPAVAZ</option>
             <option value="posto50">PA 50 - TMB CENTRO</option>
             <option value="posto51">PA 51 - BNU TRIBESS</option>
             <option value="posto52">PA 52 - GSP M  ESQUERDA</option>
@@ -207,6 +213,7 @@
             <option value="posto68">PA 68 - ITJ ITAIPAVA</option>
             <option value="posto70">PA 70 - BNU PEROLA</option>
             <option value="posto71">PA 71 - BNU BADENFURT</option>
+            <option value="posto72">PA 72 - JRG VIEIRAS</option>
             <option value="posto73">PA 73 - GSP SETE SETEMB</option>
             <option value="posto74">PA 74 - PR BNU C GARCIA</option>
             <option value="posto77">PA 77 - D PEDRINHO</option>
@@ -214,19 +221,24 @@
             <option value="posto79">PA 79 - ITJ CORDEIROS</option>
             <option value="posto81">PA 81 - ITJ FAZENDA</option>
             <option value="posto82">PA 82 - BNU DOIS SETEMB</option>
+            <option value="posto83">PA 83 - PO T CENTRAL</option>
             <option value="posto85">PA 85 - PO QUINZE NOVEM</option>
             <option value="posto86">PA 86 - BNU TESTO SALTO</option>
+            <option value="posto87">PA 87 - PO TESTO REGA</option>
             <option value="posto89">PA 89 - JRG BARRA</option>
             <option value="posto192">PA 192 - PR ITJ BISTEK</option>
             <option value="posto193">PA 193 - JRG RAU</option>
             <option value="posto194">PA 194 - PA SCHROEDER</option>
+            <option value="posto197">PA 197 - BNU IT  ALTA</option>
             <option value="posto198">PA 198 - ITJ SAO VICENTE</option>
             <option value="posto200">PA 200 - PR JRG SHOPPING</option>
             <option value="posto201">PA 201 - BNU AMADEU LUZ</option>
+            <option value="posto202">PA 202 - BNU IT NORTE</option>
             <option value="posto203">PA 203 - IDL WARNOW</option>
             <option value="posto205">PA 205 - ITJ ESPINHEIROS</option>
             <option value="posto206">PA 206 - S JOAO BATISTA</option>
             <option value="posto207">PA 207 - JRG NEREU RAMOS</option>
+            <option value="posto209">PA 209 - ALTO BENEDITO</option>
             <option value="posto210">PA 210 - PR TIMBOCENTRO</option>
             <option value="posto213">PA 213 - SJP CENTRO</option>
             <option value="posto216">PA 216 - CTB XAXIM</option>
@@ -236,7 +248,10 @@
             <option value="posto225">PA 225 - ITJ SHOPPING</option>
             <option value="posto226">PA 226 - PR GASPAR CENTR</option>
             <option value="posto227">PA 227 - JRG SANTA LUZIA</option>
+            <option value="posto228">PA 228 - PA BOTUVERA</option>
             <option value="posto229">PA 229 - PA ITJ CID NOVA</option>
+            <option value="posto231">PA 231 - CTB PORTAO</option>
+            <option value="posto232">PA 232 - CTB BOQUEIRAO</option>
             <option value="posto240">PA 240 - PR SJB KOMPRAO</option>
             <!-- Adicione mais postos conforme necessário -->
         </select>
@@ -343,71 +358,86 @@
         
         // Defina os pontos para cada PA
         const pontosPorPA = {
-            "posto1": 3513,
-            "posto2": 5169,
-            "posto3": 4542,
-            "posto8": 5736,
-            "posto9": 1815,
-            "posto14": 4141,
-            "posto15": 5264,
-            "posto17": 5982,
-            "posto20": 3517,
-            "posto21": 13850,
-            "posto25": 4996,
-            "posto26": 4783,
-            "posto28": 5023,
-            "posto29": 5222,
-            "posto30": 5515,
-            "posto32": 2655,
-            "posto37": 4928,
-            "posto42": 3068,
-            "posto45": 4152,
-            "posto46": 5218,
-            "posto47": 4767,
-            "posto50": 7606,
-            "posto51": 4038,
-            "posto52": 4040,
-            "posto53": 5192,
-            "posto54": 4324,
-            "posto55": 3138,
-            "posto57": 6448,
-            "posto58": 3948,
-            "posto61": 5049,
-            "posto64": 3439,
-            "posto68": 4248,
-            "posto70": 6019,
-            "posto71": 3461,
-            "posto73": 5198,
-            "posto74": 3423,
-            "posto77": 1764,
-            "posto78": 3832,
-            "posto79": 4761,
-            "posto81": 3976,
-            "posto82": 3038,
-            "posto85": 3780,
-            "posto86": 3245,
-            "posto89": 5870,
-            "posto192": 3896,
-            "posto193": 5187,
-            "posto194": 6951,
-            "posto198": 6903,
-            "posto200": 4070,
-            "posto201": 4507,
-            "posto203": 1193,
-            "posto205": 4435,
-            "posto206": 3556,
-            "posto207": 2333,
-            "posto210": 3209,
-            "posto213": 2723,
-            "posto216": 3568,
-            "posto219": 3834,
-            "posto220": 1494,
-            "posto221": 1348,
-            "posto225": 1746,
-            "posto226": 2326,
-            "posto227": 1744,
-            "posto229": 1505,
-            "posto240": 1933
+            "posto1": 3904,
+            "posto2": 5116,
+            "posto3": 4696,
+            "posto8": 6007,
+            "posto9": 2163,
+            "posto14": 3931,
+            "posto15": 5126,
+            "posto17": 5906,
+            "posto19": 4448,
+            "posto20": 3700,
+            "posto21": 13922,
+            "posto23": 4606,
+            "posto25": 5235,
+            "posto26": 4887,
+            "posto28": 5510,
+            "posto29": 6076,
+            "posto30": 5707,
+            "posto31": 4451,
+            "posto32": 2905,
+            "posto37": 5038,
+            "posto39": 4329,
+            "posto42": 3608,
+            "posto44": 4136,
+            "posto45": 4146,
+            "posto46": 5606,
+            "posto47": 5280,
+            "posto48": 4755,
+            "posto50": 7720,
+            "posto51": 4291,
+            "posto52": 4461,
+            "posto53": 5248,
+            "posto54": 4645,
+            "posto55": 3602,
+            "posto57": 6597,
+            "posto58": 4477,
+            "posto61": 5221,
+            "posto64": 3724,
+            "posto68": 4422,
+            "posto70": 6891,
+            "posto71": 4167,
+            "posto72": 3957,
+            "posto73": 5197,
+            "posto74": 4290,
+            "posto77": 1791,
+            "posto78": 4076,
+            "posto79": 5038,
+            "posto81": 4177,
+            "posto82": 3516,
+            "posto83": 2575,
+            "posto85": 3730,
+            "posto86": 3133,
+            "posto87": 4144,
+            "posto89": 6473,
+            "posto192": 4117,
+            "posto193": 5818,
+            "posto194": 7562,
+            "posto197": 4276,
+            "posto198": 7166,
+            "posto200": 4446,
+            "posto201": 5347,
+            "posto202": 3723,
+            "posto203": 1257,
+            "posto205": 4647,
+            "posto206": 3933,
+            "posto207": 2691,
+            "posto209": 1461,
+            "posto210": 3223,
+            "posto213": 2789,
+            "posto216": 3768,
+            "posto219": 3874,
+            "posto220": 1611,
+            "posto221": 1375,
+            "posto225": 1780,
+            "posto226": 3098,
+            "posto227": 1647,
+            "posto228": 734,
+            "posto229": 1912,
+            "posto231": 2397,
+            "posto232": 1860,
+            "posto240": 2200
         }
 
         // Verifica se o posto existe no objeto
